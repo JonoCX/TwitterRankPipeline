@@ -33,7 +33,11 @@ public class TestRun {
                 }
                 else {
                     System.out.println(i +", false");
-                    System.out.println("\tActual: " + split[1] + ", Classified: " + cat);
+                    System.out.println("\tActual: " + split[0] + ", Classified: " + cat);
+                    System.out.println("key : " +cat.getKey());
+                    System.out.println("name : " + cat.getName());
+                    System.out.println("to string: " + cat.toString());
+                    System.out.println("predication: " + cat.getPrediction());
                     i++;
                     f++;
                 }

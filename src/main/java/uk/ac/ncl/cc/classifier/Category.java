@@ -57,6 +57,8 @@ public enum Category {
         return name;
     }
 
+    public int getPrediction() { return prediction; }
+
     /**
      * Returns the Category from the predicted code that
      * the classifier returns.

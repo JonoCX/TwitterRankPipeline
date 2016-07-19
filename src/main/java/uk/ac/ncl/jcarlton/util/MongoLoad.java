@@ -7,16 +7,16 @@ package uk.ac.ncl.jcarlton.util;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.json.simple.JSONObject;
+
+
 public class MongoLoad {
 
     private static MongoClient client;
     private static MongoDatabase db;
 
-    /**
-     * Setup variables in the class ready to be
-     * used when importJson is used.
-     */
-    private static  void setup() {
+
+    public MongoLoad() {
         client = new MongoClient();
         db = client.getDatabase("twitter-rank-pipeline");
     }
@@ -26,10 +26,18 @@ public class MongoLoad {
      * mongo db collection
      * @param json  single instance of a tweet
      */
-    public static void importJson(String json) {
-        setup();
-        Document doc = Document.parse(json);
-        db.getCollection("tweets").insertOne(doc);
+    public void importJson(JSONObject json) {
+        Document doc = Document.parse(json.toString());
+        db.getCollection("tweets-processed").insertOne(doc);
     }
 
+    /**
+     * Import a single classified instance of json into
+     * the processed mongo db collection
+     * @param json  single instance of a classified tweet
+     */
+    public void importJsonClassified(JSONObject json) {
+        Document doc = Document.parse(json.toString());
+        db.getCollection("tweets-processed").insertOne(doc);
+    }
 }

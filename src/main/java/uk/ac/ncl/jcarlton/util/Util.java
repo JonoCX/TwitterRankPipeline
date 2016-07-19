@@ -76,4 +76,24 @@ public class Util {
 
         return map;
     }
+
+    public static int fetchClassification(long currentId, MongoClient client) {
+        final String[] val = new String[1];
+        try {
+            MongoDatabase db = client.getDatabase("twitter-rank-pipeline");
+            FindIterable<Document> iterable = db.getCollection("tweets-processed").find(Filters.eq("user.id", currentId));
+            iterable.forEach(new Block<Document>() {
+                @Override
+                public void apply(Document document) {
+                    Document classification = (Document) document.get("classification");
+                    val[0] = classification.get("id").toString();
+                }
+            });
+        } catch (NullPointerException e) {
+            System.out.println("Null pointer caught for id: " + currentId);
+            val[0] = "0";
+        }
+        return Integer.parseInt(val[0]);
+    }
+
 }
