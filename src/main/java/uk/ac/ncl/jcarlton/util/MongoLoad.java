@@ -9,15 +9,32 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.json.simple.JSONObject;
 
-
+/**
+ * The class will create the database on the
+ * local (127.0.0.1:27017) instance of Mongo.
+ * Use the second object constructor to specify
+ * the host and port number.
+ *
+ * @author Jonathan Carlton
+ */
 public class MongoLoad {
 
     private static MongoClient client;
     private static MongoDatabase db;
 
+    private String host;
+    private int port;
 
     public MongoLoad() {
         client = new MongoClient();
+        db = client.getDatabase("twitter-rank-pipeline");
+    }
+
+    public MongoLoad(String host, int port) {
+        this.host = host;
+        this.port = port;
+
+        client = new MongoClient(host, port);
         db = client.getDatabase("twitter-rank-pipeline");
     }
 

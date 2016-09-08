@@ -10,7 +10,6 @@ import uk.ac.ncl.cc.classifier.Classifier;
 import uk.ac.ncl.jcarlton.twitterrank.FetchFollowers;
 import uk.ac.ncl.jcarlton.util.MongoLoad;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -20,7 +19,15 @@ import java.io.IOException;
  * @version 1.0
  */
 public class TwitterRankPipeline {
-    public TwitterRankPipeline() {}
+
+    boolean started;
+    String collectionName;
+    int topic;
+
+    public TwitterRankPipeline() {
+        this.started = false;
+        this.topic = 0;
+    }
 
     public void start(String jsonFileName) {
         JSONArray jsonFile = readInJson(jsonFileName);
@@ -32,6 +39,8 @@ public class TwitterRankPipeline {
             JSONObject cTweet = classifyTweet(tweet);
             ml.importJson(cTweet);
         }
+
+        started = true;
     }
 
     /**
@@ -40,7 +49,10 @@ public class TwitterRankPipeline {
      * due to the limitations of the Twitter API (rate limits).
      */
     public void beginFollowerHarvesting() {
-        FetchFollowers.fullSocialGraph();
+        if (started) {
+            FetchFollowers.fullSocialGraph();
+            collectionName = "socialgraph_full";
+        }
     }
 
     /**
@@ -49,7 +61,15 @@ public class TwitterRankPipeline {
      * @param topic
      */
     public void beginFollowerHarvesting(int topic) {
-        FetchFollowers.topicalSocialGraph(topic);
+        if (started) {
+            FetchFollowers.topicalSocialGraph(topic);
+            collectionName = "socialgraph_topic_" + String.valueOf(topic);
+            this.topic = topic;
+        }
+    }
+
+    public void startTwitterRank() {
+
     }
 
     private JSONArray readInJson(String jsonFileName) {
