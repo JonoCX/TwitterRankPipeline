@@ -16,7 +16,6 @@ import java.io.IOException;
 /**
  *
  * @author Jonathan Carlton
- * @version 1.0
  */
 public class TwitterRankPipeline {
 
