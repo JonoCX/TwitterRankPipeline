@@ -94,7 +94,7 @@ public class TwitterRank {
         return null;
     }
 
-    /**
+    /*
      * SUPPORTING METHODS
      */
 
