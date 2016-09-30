@@ -1,5 +1,9 @@
 #Twitter Rank Pipeline#
 
+##Requirements##
+
+See dependencies in the the pom.xml file.
+
 ##Produce bayes.model##
 
 The package uk.ac.ncl.cc contains all the code needed to produce the bayes.model. 
